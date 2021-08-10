@@ -11,8 +11,12 @@ public class BoardManager : MonoBehaviour
     private int selectionY = -1;
 
     public List<GameObject> chessPiecesPrefabs;
-    private List<GameObject> activeChessPieces;
+    private List<GameObject> activeChessPieces = new List<GameObject>();
 
+    private void Start()
+    {
+        SpawnChessPieces(0, Vector3.zero);
+    }
     private void Update()
     {
         UpdateSelection();
@@ -37,7 +41,7 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        //draw the selection
+        //draw an X on the selected tile
         if(selectionX >= 0 && selectionY >=0)
         {
             Debug.DrawLine(
@@ -51,6 +55,7 @@ public class BoardManager : MonoBehaviour
     }
 
     private void UpdateSelection()
+    //scans hitpoint of mouse to see which tile is being hovered.
     {
         if(!Camera.main)
             return;
@@ -67,5 +72,12 @@ public class BoardManager : MonoBehaviour
             selectionX = -1;
             selectionY = -1;
         }
+    }
+
+    private void SpawnChessPieces(int index, Vector3 position)
+    {
+        GameObject go = Instantiate(chessPiecesPrefabs[index], position, Quaternion.identity) as GameObject;
+        go.transform.SetParent(transform);
+        activeChessPieces.Add(go);
     }
 }
