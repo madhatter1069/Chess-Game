@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    public ChessPiece [,] Chesspieces{set;get;}
+    private ChessPiece selectedChessPiece;
     private const float TILE_SIZE = 1.0f;
     private const float TILE_OFFSET = 0.5f;
 
@@ -11,17 +13,60 @@ public class BoardManager : MonoBehaviour
     private int selectionY = -1;
 
     public List<GameObject> chessPiecesPrefabs;
-    private List<GameObject> activeChessPieces = new List<GameObject>();
+    private List<GameObject> activeChessPieces;
+
+    public bool isWhiteTurn = true;
 
     private void Start()
     {
-        SpawnChessPieces(0, Vector3.zero);
+        spawnAllChessPieces();
     }
     private void Update()
     {
         UpdateSelection();
         DrawChessboard();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if(selectionX>=0 && selectionY>=0)
+            {
+                if(selectedChessPiece == null)
+                {
+                    //select the chessman
+                    SelectChesspiece(selectionX,selectionY);
+                }
+                else
+                {
+                    //move the chessman
+                    MoveChesspiece(selectionX, selectionY);
+                }
+            }
+        }
     
+    }
+
+    private void SelectChesspiece(int x, int y)
+    {
+        if(Chesspieces[x,y] == null)
+            return;
+        
+        if(Chesspieces[x,y].isWhite != isWhiteTurn)
+            return;
+        selectedChessPiece = Chesspieces[x,y];
+    }
+
+    private void MoveChesspiece(int x, int y)
+    {
+        if(selectedChessPiece.PossibleMove(x,y))
+        {
+            Chesspieces[selectedChessPiece.CurrentX,selectedChessPiece.CurrentY] = null;
+            selectedChessPiece.transform.position = getTileCenter(x,y);
+            Chesspieces[x,y] = selectedChessPiece;
+            isWhiteTurn = !isWhiteTurn;
+        }
+
+
+        selectedChessPiece = null;
     }
 
     private void DrawChessboard()
@@ -74,10 +119,82 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void SpawnChessPieces(int index, Vector3 position)
+    private void SpawnChessPieces(int index, int x, int y)
+    //takes index in chess pieces and the spot they need to be on and spawns the correct piece
+    //sets it as child to chessboard
     {
-        GameObject go = Instantiate(chessPiecesPrefabs[index], position, Quaternion.identity) as GameObject;
-        go.transform.SetParent(transform);
+        Quaternion orientation = chessPiecesPrefabs[index].transform.rotation;
+        GameObject go = Instantiate(chessPiecesPrefabs[index], getTileCenter(x,y), orientation, transform) as GameObject;
+        Chesspieces [x,y] = go.GetComponent<ChessPiece>();
+        Chesspieces [x,y].SetPosition(x,y);
         activeChessPieces.Add(go);
+    }
+
+    private Vector3 getTileCenter(int x, int y)
+    //gets center of selected tile so that chess piece is centered.
+    {
+        Vector3 origin = Vector3.zero;
+        origin.x += (TILE_SIZE * x) + TILE_OFFSET;
+        origin.z += (TILE_SIZE * y) + TILE_OFFSET;
+        return origin;
+    }
+
+    private void spawnAllChessPieces()
+    //spawns all chess pieces in correct place in center of tile.
+    {
+        activeChessPieces = new List<GameObject>();
+        Chesspieces = new ChessPiece[8,8];
+        //Spawn white
+        {
+            //King
+            SpawnChessPieces(0,4,0);
+
+            //Queen
+            SpawnChessPieces(1,3,0);
+
+            //Rook
+            SpawnChessPieces(2,0,0);
+            SpawnChessPieces(2,7,0);
+            
+            //Knight
+            SpawnChessPieces(3,1,0);
+            SpawnChessPieces(3,6,0);
+            
+            //Bishop
+            SpawnChessPieces(4,2,0);
+            SpawnChessPieces(4,5,0);
+            
+            //Pawn
+            for(int i = 0; i<8;++i){
+                SpawnChessPieces(5,i,1);
+            }
+        }
+
+        //Spawn Black
+        {
+            //King
+            SpawnChessPieces(6,4,7);
+
+            //Queen
+            SpawnChessPieces(7,3,7);
+
+            //Rook
+            SpawnChessPieces(8,0,7);
+            SpawnChessPieces(8,7,7);
+            
+            //Knight
+            SpawnChessPieces(9,1,7);
+            SpawnChessPieces(9,6,7);
+            
+            //Bishop
+            SpawnChessPieces(10,2,7);
+            SpawnChessPieces(10,5,7);
+            
+            //Pawn
+            for(int i = 0; i<8;++i){
+                SpawnChessPieces(11,i,6);
+            }
+        }
+
     }
 }

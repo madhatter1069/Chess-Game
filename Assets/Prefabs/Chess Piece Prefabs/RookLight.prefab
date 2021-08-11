@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4656301317612888}
   - component: {fileID: 33667145997053058}
   - component: {fileID: 23923637149797032}
+  - component: {fileID: -5074851821310677320}
   m_Layer: 0
   m_Name: RookLight
   m_TagString: Untagged
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5074851821310677320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971375302472462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb8a2f6d2303d49fb893d9255e84c142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWhite: 1

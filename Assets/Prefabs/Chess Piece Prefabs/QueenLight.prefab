@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4607164402640316}
   - component: {fileID: 33386584874682660}
   - component: {fileID: 23714218359197728}
+  - component: {fileID: 8492386028782894854}
   m_Layer: 0
   m_Name: QueenLight
   m_TagString: Untagged
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8492386028782894854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945632463053948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67477704cfc3a4d85b105a7828b2963f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWhite: 1

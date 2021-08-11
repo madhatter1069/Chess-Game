@@ -156,7 +156,7 @@ MonoBehaviour:
   - {fileID: 1389686872840900, guid: 27d2608cb94ae2d44811af52793c3562, type: 3}
   - {fileID: 1945632463053948, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
   - {fileID: 1971375302472462, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
-  - {fileID: 1992623236052302, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
+  - {fileID: 1808594269333410763, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
   - {fileID: 1028868664329696, guid: 1c0f2faf14460a5478057fd4e0575576, type: 3}
   - {fileID: 1006356879557798, guid: 391882f14be491c40962add653844907, type: 3}
   - {fileID: 1810274083847610, guid: 309659d4eb727d74d91c4875a85edc00, type: 3}
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 2112068612}
   - component: {fileID: 2112068611}
   m_Layer: 6
-  m_Name: ChessPlan
+  m_Name: ChessPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
