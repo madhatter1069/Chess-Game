@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Pawn : ChessPiece
 {
-    // Start is called before the first frame update
-    void Start()
+    public override bool[,] PossibleMove()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        bool[,] r= new bool[8,8];
+        r[3,3] = true;
+        return r;
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    public static BoardManager Instance{set;get;}
+    private bool[,] allowedMoves{set;get;}
     public ChessPiece [,] Chesspieces{set;get;}
     private ChessPiece selectedChessPiece;
     private const float TILE_SIZE = 1.0f;
@@ -52,20 +54,24 @@ public class BoardManager : MonoBehaviour
         
         if(Chesspieces[x,y].isWhite != isWhiteTurn)
             return;
+
+        allowedMoves = Chesspieces[x,y].PossibleMove();
         selectedChessPiece = Chesspieces[x,y];
+        BoardHighlight.Instance.HighlightAllowedMoves(allowedMoves);
     }
 
     private void MoveChesspiece(int x, int y)
     {
-        if(selectedChessPiece.PossibleMove(x,y))
+        if(allowedMoves[x,y])
         {
             Chesspieces[selectedChessPiece.CurrentX,selectedChessPiece.CurrentY] = null;
             selectedChessPiece.transform.position = getTileCenter(x,y);
+            selectedChessPiece.SetPosition(x,y);
             Chesspieces[x,y] = selectedChessPiece;
             isWhiteTurn = !isWhiteTurn;
         }
 
-
+        BoardHighlight.Instance.hideHighlights();
         selectedChessPiece = null;
     }
 
