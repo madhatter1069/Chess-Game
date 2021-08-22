@@ -20,7 +20,7 @@ public class Rook : ChessPiece
             c = BoardManager.Instance.Chesspieces[i, CurrentY];
             if(c == null)
                 moves[i,CurrentY] = true;
-            else
+            else 
             {
                 if(c.isWhite != isWhite)
                     moves[i,CurrentY] = true;
@@ -39,7 +39,7 @@ public class Rook : ChessPiece
             c = BoardManager.Instance.Chesspieces[i, CurrentY];
             if(c == null)
                 moves[i,CurrentY] = true;
-            else
+            else 
             {
                 if(c.isWhite != isWhite)
                     moves[i,CurrentY] = true;
@@ -58,7 +58,7 @@ public class Rook : ChessPiece
             c = BoardManager.Instance.Chesspieces[CurrentX, i];
             if(c == null)
                 moves[CurrentX,i] = true;
-            else
+            else 
             {
                 if(c.isWhite != isWhite)
                     moves[CurrentX,i] = true;
@@ -77,7 +77,7 @@ public class Rook : ChessPiece
             c = BoardManager.Instance.Chesspieces[CurrentX, i];
             if(c == null)
                 moves[CurrentX,i] = true;
-            else
+            else 
             {
                 if(c.isWhite != isWhite)
                     moves[CurrentX,i] = true;
