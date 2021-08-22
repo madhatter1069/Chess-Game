@@ -9,12 +9,15 @@ public class Pawn : ChessPiece
     {
         bool[,] moves = new bool[8,8];
         ChessPiece c, c2;
+        int [] e = BoardManager.Instance.EnPassantMove;
         //white team move
         if(isWhite)
         {
             //diagonal left
             if(CurrentX != 0 && CurrentY != 7)
             {
+                if(e[0] == CurrentX-1 &&  e[1] == CurrentY+1)
+                    moves[CurrentX-1, CurrentY+1] = true;
                 c = BoardManager.Instance.Chesspieces[CurrentX-1, CurrentY+1];
                 if(c != null && !c.isWhite)
                 {
@@ -25,6 +28,8 @@ public class Pawn : ChessPiece
             //diagonal right
             if(CurrentX != 7 && CurrentY != 7)
             {
+                if(e[0] == CurrentX+1 &&  e[1] == CurrentY+1)
+                    moves[CurrentX+1, CurrentY+1] = true;
                 c = BoardManager.Instance.Chesspieces[CurrentX+1, CurrentY+1];
                 if(c != null && !c.isWhite)
                 {
@@ -51,11 +56,14 @@ public class Pawn : ChessPiece
                 }
             }
         }
+        //black team move
         else 
         {
             //diagonal left
             if(CurrentX != 0 && CurrentY != 0)
             {
+                if(e[0] == CurrentX-1 &&  e[1] == CurrentY-1)
+                    moves[CurrentX-1, CurrentY-1] = true;
                 c = BoardManager.Instance.Chesspieces[CurrentX-1, CurrentY-1];
                 if(c != null && c.isWhite)
                 {
@@ -66,6 +74,8 @@ public class Pawn : ChessPiece
             //diagonal right
             if(CurrentX != 7 && CurrentY != 0)
             {
+                if(e[0] == CurrentX+1 &&  e[1] == CurrentY-1)
+                    moves[CurrentX+1, CurrentY-1] = true;
                 c = BoardManager.Instance.Chesspieces[CurrentX+1, CurrentY-1];
                 if(c != null && c.isWhite)
                 {

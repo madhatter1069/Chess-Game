@@ -17,6 +17,11 @@ public class BoardManager : MonoBehaviour
     public List<GameObject> chessPiecesPrefabs;
     private List<GameObject> activeChessPieces;
 
+    public Material previousMat;
+    public Material selectedMat;
+
+    public int[] EnPassantMove{set;get;}
+
     public bool isWhiteTurn = true;
 
     private void Start()
@@ -27,7 +32,7 @@ public class BoardManager : MonoBehaviour
     private void Update()
     {
         UpdateSelection();
-        DrawChessboard();
+        //DrawChessboard();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -55,15 +60,13 @@ public class BoardManager : MonoBehaviour
         
         if(Chesspieces[x,y].isWhite != isWhiteTurn)
             return;
-        bool hasAtLeastOneMove = false; 
-        allowedMoves = Chesspieces[x,y].PossibleMove();
-        for(int i = 0; i< 8; ++i)
-            for(int j = 0; j<8; ++j)
-                if(allowedMoves[i,j])
-                    hasAtLeastOneMove = true;
-        if(!hasAtLeastOneMove)
+        if(!hasAtLeastOneMove(x,y))
             return;
+        
         selectedChessPiece = Chesspieces[x,y];
+        previousMat = selectedChessPiece.GetComponent<MeshRenderer>().material;
+        selectedMat.mainTexture = previousMat.mainTexture;
+        selectedChessPiece.GetComponent<MeshRenderer >().material = selectedMat;
         BoardHighlight.Instance.HighlightAllowedMoves(allowedMoves);
     }
 
@@ -80,6 +83,7 @@ public class BoardManager : MonoBehaviour
                 if(c.GetType() == typeof(King))
                 {
                     //end game
+                    //if(!hasAtLeastOneMove(x,y))
                     EndGame();
                     return;
                 }
@@ -87,14 +91,56 @@ public class BoardManager : MonoBehaviour
                 activeChessPieces.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
+            if(x == EnPassantMove[0] && y == EnPassantMove[1])
+            {
+                if(isWhiteTurn)//white turn
+                    c = Chesspieces[x,y-1];
+                else //black turn
+                    c = Chesspieces[x,y+1];
 
+                activeChessPieces.Remove(c.gameObject);
+                Destroy(c.gameObject);
+            }
+            EnPassantMove[0] = -1;
+            EnPassantMove[1] = -1;
+            if(selectedChessPiece.GetType() == typeof(Pawn))//promotion and en passant
+            {
+                if(y == 7)//white
+                {
+                    activeChessPieces.Remove(selectedChessPiece.gameObject);
+                    Destroy(selectedChessPiece.gameObject);
+                    SpawnChessPieces(1,x,y);
+                    SelectChesspiece(x,y); 
+                    selectedChessPiece = Chesspieces[x,y];
+                }
+                else if(y == 0)//black
+                {
+                    activeChessPieces.Remove(selectedChessPiece.gameObject);
+                    Destroy(selectedChessPiece.gameObject);
+                    SpawnChessPieces(7,x,y);
+                    SelectChesspiece(x,y); 
+                    selectedChessPiece = Chesspieces[x,y];
+                }
+                
+                if(selectedChessPiece.CurrentY == 1 && y == 3)
+                {
+                    EnPassantMove[0] = x;
+                    EnPassantMove[1] = y-1;
+                }
+                else if(selectedChessPiece.CurrentY == 6 && y == 4)
+                {
+                    EnPassantMove[0] = x;
+                    EnPassantMove[1] = y+1;
+                }
+            }
+            
             Chesspieces[selectedChessPiece.CurrentX,selectedChessPiece.CurrentY] = null;
             selectedChessPiece.transform.position = getTileCenter(x,y);
             selectedChessPiece.SetPosition(x,y);
             Chesspieces[x,y] = selectedChessPiece;
             isWhiteTurn = !isWhiteTurn;
         }
-
+        selectedChessPiece.GetComponent<MeshRenderer>().material = previousMat;
         BoardHighlight.Instance.hideHighlights();
         selectedChessPiece = null;
     }
@@ -174,6 +220,7 @@ public class BoardManager : MonoBehaviour
     {
         activeChessPieces = new List<GameObject>();
         Chesspieces = new ChessPiece[8,8];
+        EnPassantMove = new int[2]{-1,-1};
         //Spawn white
         {
             //King
@@ -241,5 +288,16 @@ public class BoardManager : MonoBehaviour
         isWhiteTurn = true;
         BoardHighlight.Instance.hideHighlights();
         spawnAllChessPieces(); 
+    }
+
+    private bool hasAtLeastOneMove(int x, int y)
+    {
+        bool hasMove = false; 
+        allowedMoves = Chesspieces[x,y].PossibleMove();
+        for(int i = 0; i< 8; ++i)
+            for(int j = 0; j<8; ++j)
+                if(allowedMoves[i,j])
+                    hasMove = true;
+        return hasMove;
     }
 }
