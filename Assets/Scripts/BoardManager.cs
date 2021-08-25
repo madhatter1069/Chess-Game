@@ -210,7 +210,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("right");
                         return check;
                     }
                 }
@@ -238,7 +237,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("left");
                         return check;
                     }
                 }
@@ -266,7 +264,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("up");
                         return check;
                     }
                 }
@@ -294,7 +291,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("down");
                         return check;
                     }
                 }
@@ -324,7 +320,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("up right");
                         return check;
                     }
                 }
@@ -354,7 +349,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("up left");
                         return check;
                     }
                 }
@@ -384,7 +378,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("down left");
                         return check;
                     }
                 }
@@ -414,7 +407,6 @@ public class BoardManager : MonoBehaviour
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
                     if(check){
-                        Debug.Log("down right");
                         return check;
                     }
                 }
@@ -424,52 +416,28 @@ public class BoardManager : MonoBehaviour
 
         //UUR
         if(knightCheck(king.CurrentX+1, king.CurrentY+2, king))
-        {
-            Debug.Log("UUR check");
             return true;
-        }
         //UUL
         if(knightCheck(king.CurrentX-1, king.CurrentY+2, king))
-        {
-            Debug.Log("UUL check");
             return true;
-        }
         //URR
         if(knightCheck(king.CurrentX+2, king.CurrentY+1, king))
-        {
-            Debug.Log("URR check");
             return true;
-        }
         //ULL
         if(knightCheck(king.CurrentX-2, king.CurrentY+1, king))
-        {
-            Debug.Log("ULL check");
             return true;
-        }
         //DDR
         if(knightCheck(king.CurrentX+1, king.CurrentY-2, king))
-        {
-            Debug.Log("DDR check");
             return true;
-        }
         //DDL
         if(knightCheck(king.CurrentX-1, king.CurrentY-2, king))
-        {
-            Debug.Log("DDL check");
             return true;
-        }
         //DRR
         if(knightCheck(king.CurrentX+2, king.CurrentY-1, king))
-        {
-            Debug.Log("DRR check");
             return true;
-        }
         //DLL
         if(knightCheck(king.CurrentX-2, king.CurrentY-1, king))
-        {
-            Debug.Log("DLL check");
             return true;
-        }
 
         return false;
     }
@@ -493,10 +461,7 @@ public class BoardManager : MonoBehaviour
         for(int i = 0; i< 8; ++i)
             for(int j = 0; j<8; ++j)
                 if(moves[i,j] && i ==x && j == y)
-                {
-                    //Debug.Log("Check");
                     return true;
-                }
         return false;
 
     }
@@ -532,7 +497,6 @@ public class BoardManager : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out hit,25.0f,LayerMask.GetMask("ChessPlane")))
         {
-            //Debug.Log(hit.point);
             selectionX = (int) hit.point.x;
             selectionY = (int) hit.point.z;
         }

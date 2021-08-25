@@ -35,9 +35,9 @@ public class Knight : ChessPiece
         {
             c = BoardManager.Instance.Chesspieces[x,y];
             if(c == null)
-                moves[x,y] = true;
+                moves[x,y] = BoardManager.Instance.validateMove(x, y, king, this);
             else if(isWhite != c.isWhite)
-                moves[x,y] = true;
+                moves[x,y] = BoardManager.Instance.validateMove(x, y, king, this);
         }
     }
 

@@ -22,11 +22,11 @@ public class Bishop : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[i,j];
             if(c == null)
-                moves[i,j] = true;
+                moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
             else   
             {
                 if(c.isWhite != isWhite)
-                    moves[i,j] = true;
+                    moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
 
                 break;
             }
@@ -42,11 +42,11 @@ public class Bishop : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[i,j];
             if(c == null)
-                moves[i,j] = true;
+                moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
             else   
             {
                 if(c.isWhite != isWhite)
-                    moves[i,j] = true;
+                    moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
                     
                 break;
             }
@@ -62,11 +62,11 @@ public class Bishop : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[i,j];
             if(c == null)
-                moves[i,j] = true;
+                moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
             else   
             {
                 if(c.isWhite != isWhite)
-                    moves[i,j] = true;
+                    moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
                     
                 break;
             }
@@ -82,11 +82,11 @@ public class Bishop : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[i,j];
             if(c == null)
-                moves[i,j] = true;
+                moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
             else   
             {
                 if(c.isWhite != isWhite)
-                    moves[i,j] = true;
+                    moves[i,j] = BoardManager.Instance.validateMove(i, j, king, this);
                     
                 break;
             }

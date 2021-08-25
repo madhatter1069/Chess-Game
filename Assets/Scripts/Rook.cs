@@ -20,11 +20,11 @@ public class Rook : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[i, CurrentY];
             if(c == null)
-                moves[i,CurrentY] = true;
+                moves[i,CurrentY] = BoardManager.Instance.validateMove(i, CurrentY,king,this);
             else 
             {
                 if(c.isWhite != isWhite)
-                    moves[i,CurrentY] = true;
+                    moves[i,CurrentY] = BoardManager.Instance.validateMove(i, CurrentY,king,this);
                 
                 break;
             }    
@@ -39,11 +39,11 @@ public class Rook : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[i, CurrentY];
             if(c == null)
-                moves[i,CurrentY] = true;
+                moves[i,CurrentY] = BoardManager.Instance.validateMove(i, CurrentY,king, this);
             else 
             {
                 if(c.isWhite != isWhite)
-                    moves[i,CurrentY] = true;
+                    moves[i,CurrentY] = BoardManager.Instance.validateMove(i, CurrentY, king, this);
                 
                 break;
             }    
@@ -58,11 +58,11 @@ public class Rook : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[CurrentX, i];
             if(c == null)
-                moves[CurrentX,i] = true;
+                moves[CurrentX,i] = BoardManager.Instance.validateMove(CurrentX, i, king,this);
             else 
             {
                 if(c.isWhite != isWhite)
-                    moves[CurrentX,i] = true;
+                    moves[CurrentX,i] = BoardManager.Instance.validateMove(CurrentX, i, king,this);
                 
                 break;
             }    
@@ -77,11 +77,11 @@ public class Rook : ChessPiece
                 break;
             c = BoardManager.Instance.Chesspieces[CurrentX, i];
             if(c == null)
-                moves[CurrentX,i] = true;
+                moves[CurrentX,i] = BoardManager.Instance.validateMove(CurrentX, i, king,this);
             else 
             {
                 if(c.isWhite != isWhite)
-                    moves[CurrentX,i] = true;
+                    moves[CurrentX,i] = BoardManager.Instance.validateMove(CurrentX, i, king,this);
                 
                 break;
             }    
