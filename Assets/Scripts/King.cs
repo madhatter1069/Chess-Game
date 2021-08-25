@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class King : ChessPiece
 {
+    public bool firstMove = true;
     public override bool[,] PossibleMove()
     {
         bool [,] moves = new bool[8,8];
@@ -17,7 +18,7 @@ public class King : ChessPiece
         {
             for(int k = 0; k < 3; ++k)
             {
-                if(i >= 0 || i < 8)
+                if(i >= 0 && i < 8)
                 {
                     c = BoardManager.Instance.Chesspieces[i,j];
                     if(c == null)
@@ -27,8 +28,9 @@ public class King : ChessPiece
                         if(c.isWhite != isWhite)
                             moves[i,j] = true;
                     }
-                    ++i;
+                    
                 }
+                ++i;
             }
         }
         //down side
@@ -38,7 +40,7 @@ public class King : ChessPiece
         {
             for(int k = 0; k < 3; ++k)
             {
-                if(i >= 0 || i < 8)
+                if(i >= 0 && i < 8)
                 {
                     c = BoardManager.Instance.Chesspieces[i,j];
                     if(c == null)
@@ -48,8 +50,8 @@ public class King : ChessPiece
                         if(c.isWhite != isWhite)
                             moves[i,j] = true;
                     }
-                    ++i;
                 }
+                ++i;
             }
         }
         //middle left

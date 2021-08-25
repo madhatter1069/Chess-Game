@@ -17,11 +17,11 @@ public class Pawn : ChessPiece
             if(CurrentX != 0 && CurrentY != 7)
             {
                 if(e[0] == CurrentX-1 &&  e[1] == CurrentY+1)
-                    moves[CurrentX-1, CurrentY+1] = true;
+                    moves[CurrentX-1, CurrentY+1] = BoardManager.Instance.validateMove(CurrentX-1, CurrentY+1,BoardManager.Instance.WhiteKing, this);
                 c = BoardManager.Instance.Chesspieces[CurrentX-1, CurrentY+1];
                 if(c != null && !c.isWhite)
                 {
-                    moves[CurrentX-1, CurrentY+1] = true;
+                    moves[CurrentX-1, CurrentY+1] = BoardManager.Instance.validateMove(CurrentX-1, CurrentY+1,BoardManager.Instance.WhiteKing,this);//true;
                 }
             }
 
@@ -29,11 +29,11 @@ public class Pawn : ChessPiece
             if(CurrentX != 7 && CurrentY != 7)
             {
                 if(e[0] == CurrentX+1 &&  e[1] == CurrentY+1)
-                    moves[CurrentX+1, CurrentY+1] = true;
+                    moves[CurrentX+1, CurrentY+1] = BoardManager.Instance.validateMove(CurrentX+1, CurrentY+1,BoardManager.Instance.WhiteKing,this);//true;
                 c = BoardManager.Instance.Chesspieces[CurrentX+1, CurrentY+1];
                 if(c != null && !c.isWhite)
                 {
-                    moves[CurrentX+1, CurrentY+1] = true;
+                    moves[CurrentX+1, CurrentY+1] = BoardManager.Instance.validateMove(CurrentX+1, CurrentY+1,BoardManager.Instance.WhiteKing,this);//true;
                 }
             }
             //middle
@@ -42,7 +42,7 @@ public class Pawn : ChessPiece
                 c = BoardManager.Instance.Chesspieces[CurrentX,CurrentY+1];
                 if(c == null)
                 {
-                    moves[CurrentX,CurrentY+1] = true;
+                    moves[CurrentX,CurrentY+1] = BoardManager.Instance.validateMove(CurrentX, CurrentY+1,BoardManager.Instance.WhiteKing,this);//true;
                 }
             }
             //middle first move
@@ -52,7 +52,7 @@ public class Pawn : ChessPiece
                 c2 = BoardManager.Instance.Chesspieces[CurrentX,CurrentY+2];
                 if(c == null && c2 == null)
                 {
-                    moves[CurrentX,CurrentY+2] = true;
+                    moves[CurrentX,CurrentY+2] = BoardManager.Instance.validateMove(CurrentX, CurrentY+2,BoardManager.Instance.WhiteKing,this);//true;
                 }
             }
         }
