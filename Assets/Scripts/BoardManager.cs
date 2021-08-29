@@ -158,6 +158,35 @@ public class BoardManager : MonoBehaviour
         selectedChessPiece = null;
     }
 
+    private int Checkmate()
+    // -1 = no checkmate
+    // 0 = white in checkmate
+    // 1 = black in checkmate
+    
+    {
+        int mate = 0;
+        bool blackMoves = false;
+        bool whiteMoves = false;
+        for(int i = 0; i < 8; ++i)
+        {
+            for(int j = 0; j < 8; ++j)
+            {
+                if(Chesspieces[i,j] != null)
+                {
+                    if(hasAtLeastOneMove(i,j))
+                    {
+                        if(Chesspieces[i,j].isWhite)
+                            whiteMoves = true;
+                        else
+                            blackMoves = true;
+                    }
+                }
+            }
+
+        }
+        return mate;
+    }
+
     private void EndGame()
     {
         if(isWhiteTurn)
@@ -373,7 +402,7 @@ public class BoardManager : MonoBehaviour
             {
                 if(c.isWhite != king.isWhite)//if not same color
                 {
-                    moves = c.PossibleMove();//get moves of pice found
+                    moves = c.PossibleMove();//get moves of piece found
                     //if the coordinates of king are found in the possible 
                     //moves of the piece found then king in check.
                     check = findKing(moves, king.CurrentX, king.CurrentY);
@@ -460,7 +489,7 @@ public class BoardManager : MonoBehaviour
     {
         for(int i = 0; i< 8; ++i)
             for(int j = 0; j<8; ++j)
-                if(moves[i,j] && i ==x && j == y)
+                if(moves[i,j] && i == x && j == y)
                     return true;
         return false;
 
