@@ -1,0 +1,6 @@
+{"msg":"init","dagFile":"artifacts/tundra.dag","targets":[]}
+{"msg":"newNode","annotation":"WriteResponseFile artifacts/rsp/4625657890504543996.rsp","index":1}
+{"msg":"noderesult","annotation":"WriteResponseFile artifacts/rsp/4625657890504543996.rsp","index":1,"exitcode":0}
+{"msg":"newNode","annotation":"Il2Cpp /Users/jaredclark/Desktop/Chess Game/Library/Il2cppBuildCache/WebGL/Native/build.bc","index":2}
+{"msg":"noderesult","annotation":"Il2Cpp /Users/jaredclark/Desktop/Chess Game/Library/Il2cppBuildCache/WebGL/Native/build.bc","index":2,"exitcode":0}
+{"msg":"newNode","annotation":"all_tundra_nodes","index":0}
