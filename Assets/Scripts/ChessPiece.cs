@@ -7,6 +7,7 @@ public abstract class ChessPiece : MonoBehaviour
     public int CurrentX{set;get;}
     public int CurrentY{set;get;}
     public bool isWhite;
+    public bool castle;
     protected ChessPiece king;
 
     private void Start()

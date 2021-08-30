@@ -23,11 +23,8 @@ public class BoardManager : MonoBehaviour
     public int[] EnPassantMove{set;get;}
 
     public bool isWhiteTurn = true;
-    public ChessPiece WhiteKing;
-    public ChessPiece BlackKing;
-
-    private bool BCheck = false;
-    private bool WCheck = false;
+    [System.NonSerialized] public ChessPiece WhiteKing;
+    [System.NonSerialized] public ChessPiece BlackKing;
 
 
     private void Start()
@@ -56,7 +53,32 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+        if(inCheck(WhiteKing))
+            if(Checkmate(true))
+                EndGame();
+        if(inCheck(BlackKing))
+            if(Checkmate(false))
+                EndGame();
     
+    }
+
+    private void CastleReset(bool isWhite)
+    {
+        if(isWhite)
+            WhiteKing.castle = false;
+        else 
+            BlackKing.castle = false;
+        for(int i = 0; i < 8; ++i)
+        {
+            for(int j = 0; j < 8; ++j)
+            {
+                ChessPiece c = Chesspieces[i,j];
+                if(c != null && c.GetType() == typeof(Rook) && c.isWhite == isWhite)
+                {
+                    c.castle = false;
+                }
+            }
+        }
     }
 
     private void SelectChesspiece(int x, int y)
@@ -88,18 +110,43 @@ public class BoardManager : MonoBehaviour
             {
                 //Capture piece
                 //if king
-                if(c.GetType() == typeof(King))
+                /*if(c.GetType() == typeof(King))
                 {
                     //end game
                     //if(!hasAtLeastOneMove(x,y))
                     EndGame();
                     return;
-                }
+                }  */
 
                 activeChessPieces.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
-            if(x == EnPassantMove[0] && y == EnPassantMove[1])
+            if(selectedChessPiece.GetType() == typeof(King))
+            {
+                CastleReset(selectedChessPiece.isWhite);
+                //do castle move
+                if(x-selectedChessPiece.CurrentX == 2)
+                {
+                    c = Chesspieces[x+1,y];
+                    Chesspieces[x+1,y] = null;
+                    c.transform.position = getTileCenter(c.CurrentX-2,c.CurrentY);
+                    c.SetPosition(c.CurrentX-2,c.CurrentY);
+                    Chesspieces[c.CurrentX-2,c.CurrentY] = c;
+                }
+                else if(x-selectedChessPiece.CurrentX == -2)
+                {
+                    c = Chesspieces[x-2,y];
+                    Chesspieces[x-2,y] = null;
+                    c.transform.position = getTileCenter(c.CurrentX+3,c.CurrentY);
+                    c.SetPosition(c.CurrentX+3,c.CurrentY);
+                    Chesspieces[c.CurrentX+3,c.CurrentY] = c;
+                }
+            }
+            if(selectedChessPiece.GetType() == typeof(Rook))
+            {
+                CastleReset(selectedChessPiece.isWhite);
+            }
+            if(x == EnPassantMove[0] && y == EnPassantMove[1])//destroy chess piece if en passant move chosen
             {
                 if(isWhiteTurn)//white turn
                     c = Chesspieces[x,y-1];
@@ -109,7 +156,7 @@ public class BoardManager : MonoBehaviour
                 activeChessPieces.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
-            EnPassantMove[0] = -1;
+            EnPassantMove[0] = -1;//reset en passant move so not possible again
             EnPassantMove[1] = -1;
             if(selectedChessPiece.GetType() == typeof(Pawn))//promotion and en passant
             {
@@ -146,11 +193,7 @@ public class BoardManager : MonoBehaviour
             selectedChessPiece.transform.position = getTileCenter(x,y);
             selectedChessPiece.SetPosition(x,y);
             Chesspieces[x,y] = selectedChessPiece;
-            
-            //see if in check
-            WCheck = inCheck(WhiteKing);
-            BCheck = inCheck(BlackKing);
-            
+
             isWhiteTurn = !isWhiteTurn;
         }
         selectedChessPiece.GetComponent<MeshRenderer>().material = previousMat;
@@ -158,41 +201,30 @@ public class BoardManager : MonoBehaviour
         selectedChessPiece = null;
     }
 
-    private int Checkmate()
-    // -1 = no checkmate
-    // 0 = white in checkmate
-    // 1 = black in checkmate
-    
+    private bool Checkmate(bool isWhite)
     {
-        int mate = 0;
-        bool blackMoves = false;
-        bool whiteMoves = false;
         for(int i = 0; i < 8; ++i)
         {
             for(int j = 0; j < 8; ++j)
             {
-                if(Chesspieces[i,j] != null)
+                ChessPiece c = Chesspieces[i,j];
+                if(c != null && c.isWhite == isWhite)//if chesspiece exist and is same color as the one needed to be checked 
                 {
                     if(hasAtLeastOneMove(i,j))
-                    {
-                        if(Chesspieces[i,j].isWhite)
-                            whiteMoves = true;
-                        else
-                            blackMoves = true;
-                    }
+                        return false;//return that not in checkmate if it has a move;
                 }
             }
-
         }
-        return mate;
+        //Debug.Log(isWhite+" Loses");
+        return true;
     }
 
-    private void EndGame()
+    private void EndGame()//resets the board to start state
     {
         if(isWhiteTurn)
-            Debug.Log("White team wins");
-        else
             Debug.Log("Black team wins");
+        else
+            Debug.Log("White team wins");
 
         foreach(GameObject go in activeChessPieces)
             Destroy(go);
@@ -202,7 +234,7 @@ public class BoardManager : MonoBehaviour
         spawnAllChessPieces(); 
     }
 
-    private bool hasAtLeastOneMove(int x, int y)
+    private bool hasAtLeastOneMove(int x, int y)//check if a piece has a possible move
     {
         allowedMoves = Chesspieces[x,y].PossibleMove();
         for(int i = 0; i< 8; ++i)
@@ -212,7 +244,7 @@ public class BoardManager : MonoBehaviour
         return false;
     }
 
-    public bool inCheck(ChessPiece king)
+    public bool inCheck(ChessPiece king)//searches in all directions to see if king is in check
     {
         bool check = false;
         ChessPiece c;
@@ -471,7 +503,7 @@ public class BoardManager : MonoBehaviour
         return false;
     }
 
-    private bool knightCheck(int x, int y, ChessPiece king)
+    private bool knightCheck(int x, int y, ChessPiece king)//checks for check if direction of a knight
     //return true if knight is at x,y
     {
         ChessPiece c;
@@ -486,6 +518,7 @@ public class BoardManager : MonoBehaviour
     }
 
     private bool findKing(bool[,] moves, int x, int y)
+    //returns true if king coordinates are found in that pieces possibles move set
     {
         for(int i = 0; i< 8; ++i)
             for(int j = 0; j<8; ++j)
@@ -496,6 +529,7 @@ public class BoardManager : MonoBehaviour
     }
 
     public bool validateMove(int x, int y, ChessPiece k, ChessPiece piece)
+    //checks a possible move to see if it will put same teams king in check
     {
         int prevX = piece.CurrentX;
         int prevY = piece.CurrentY;

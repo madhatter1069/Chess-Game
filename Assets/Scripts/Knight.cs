@@ -6,26 +6,26 @@ public class Knight : ChessPiece
 {
     public override bool[,] PossibleMove()
     {
-        bool [,] r = new bool[8,8];
+        bool [,] moves = new bool[8,8];
         
         //UUR
-        KnightMove(CurrentX+1, CurrentY+2, ref r);
+        KnightMove(CurrentX+1, CurrentY+2, ref moves);
         //UUL
-        KnightMove(CurrentX-1, CurrentY+2, ref r);
+        KnightMove(CurrentX-1, CurrentY+2, ref moves);
         //URR
-        KnightMove(CurrentX+2, CurrentY+1, ref r);
+        KnightMove(CurrentX+2, CurrentY+1, ref moves);
         //ULL
-        KnightMove(CurrentX-2, CurrentY+1, ref r);
+        KnightMove(CurrentX-2, CurrentY+1, ref moves);
         //DDR
-        KnightMove(CurrentX+1, CurrentY-2, ref r);
+        KnightMove(CurrentX+1, CurrentY-2, ref moves);
         //DDL
-        KnightMove(CurrentX-1, CurrentY-2, ref r);
+        KnightMove(CurrentX-1, CurrentY-2, ref moves);
         //DRR
-        KnightMove(CurrentX+2, CurrentY-1, ref r);
+        KnightMove(CurrentX+2, CurrentY-1, ref moves);
         //DLL
-        KnightMove(CurrentX-2, CurrentY-1, ref r);
+        KnightMove(CurrentX-2, CurrentY-1, ref moves);
         
-        return r;
+        return moves;
     }
 
     public void KnightMove(int x, int y, ref bool[,] moves)

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class King : ChessPiece
 {
-    public bool firstMove = true;
     public override bool[,] PossibleMove()
     {
         bool [,] moves = new bool[8,8];
@@ -79,6 +78,62 @@ public class King : ChessPiece
             }
         }
 
+        if(castle)
+        {
+            CastleMove(CurrentX,CurrentY, ref moves);
+        }
+
         return moves;
     }
+
+    public void CastleMove(int x, int y, ref bool[,] moves)
+    {
+        ChessPiece c;
+        int i;
+
+        //castle right
+        i = x;
+        while (i < 8)
+        {
+            ++i;
+            c = BoardManager.Instance.Chesspieces[i,y];
+            if(c == null){}
+            else if(c != null)
+            {
+                if(i == 7 && c.isWhite == isWhite && c.GetType() == typeof(Rook) && c.castle)
+                {
+                    if(!BoardManager.Instance.inCheck(this))
+                    {
+                        if(moves[CurrentX+1,CurrentY])
+                            moves[x+2,y] = BoardManager.Instance.validateMove(x+2,y,this,this);
+                    }
+                }
+                break;
+            }
+                
+        }
+        //castle left
+        i = x;
+        while (i > -1)
+        {
+            --i;
+            c = BoardManager.Instance.Chesspieces[i,y];
+            if(c == null){}
+            else if(c != null)
+            {
+                if(i == 0 && c.isWhite == isWhite && c.GetType() == typeof(Rook) && c.castle)
+                {
+                    if(!BoardManager.Instance.inCheck(this))
+                    {
+                        if(BoardManager.Instance.validateMove(x-1,y,this,this))
+                            moves[x-2,y] = BoardManager.Instance.validateMove(x-2,y,this,this);
+                    }
+                }
+                break;
+            }
+                
+        }
+
+    }
+
 }
